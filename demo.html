@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>smartSearch Demo</title>
+    <style>
+    .disable {
+        color: gray;
+    }
+    </style>
+</head>
+<body>
+    <h2>
+        smartSearch Demo
+    </h2>
+
+    <p>
+        Hi , my name is <button data-type="name" data-country="china">Alan Zhang</button>  , from china<br>
+        Hi , my name is <button data-type="name" data-country="usa">Andi Meisen</button> 
+    </p>
+
+    <p>
+        Hi , I'm <button data-type="age">19</button>  <br>
+        Hi , I'm <button data-type="age">20</button> 
+    </p>
+
+    <p>
+        <a href="/demo.html" >clear search</a>
+    </p>
+    <script src="smartSearch.min.js"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <script>
+        $('button').on('click', function () {
+            var data = {};
+
+            var field = $(this).data('type');
+            data[field] = $(this).text();
+
+            var country = $(this).data('country');
+
+            if (country) {
+                data['country'] = country;
+            }
+
+            smartSearch(data, location.origin + '/demo2.html');
+
+
+        })
+    </script>
+</body>
+</html>

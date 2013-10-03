@@ -1,30 +1,34 @@
-(function(){
-    function redirect (field, value) {
-        var searchStr = addSearchField(field, value);
-        location.href = location.origin + location.pathname  + '?' + searchStr;
-    }
+/*!
+ *  version: 1.0
+ *  author: Alan Zhang <alanzhang717@gmail.com>
+ *  https://github.com/alan-zhang-/smartSearch
+ */
 
-    function addSearchField (field, value) {
-        var search = window.location.search;
-        if (search) {
-            var searchStr = window.location.search.substr(1);
-            searchStr = searchStr.split('&');
-            var searchObj = {};searchArr= [];
-            for (var i = searchStr.length - 1; i >= 0; i--) {
-                var tmp = searchStr[i].split('=');
-                searchObj[tmp[0]] = tmp[1];
-            };
+var smartSearch = function(data, url) {
+    var search = location.search,searchObj = {},searchArr = [],searchStr;
 
-            searchObj[field] = value;
-            for(var prop in searchObj) {
-                searchArr.push(prop + '=' + searchObj[prop]);
-            }
+    if (search) {
+        search = search.substr(1).split('&');
 
-            searchStr = searchArr.join('&');
-        } else {
-            searchStr = field + '=' + value;
-        }
+        for (var i = search.length - 1; i >= 0; i--) {
+            var tmp = search[i].split('=');
+            searchObj[tmp[0]] = tmp[1];
+        };
+    };
 
-        return searchStr;
-    }
-})();
+    for ( var prop in data ) {
+        searchObj[encodeURIComponent(prop)] = encodeURIComponent(data[prop]);
+    };
+
+    for ( var prop in searchObj ) {     
+        searchArr.push(prop+ '=' + searchObj[prop]);
+    };
+
+    searchStr = searchArr.join('&');
+
+    if (arguments.length === 1) {
+        var url = location.origin + location.pathname;
+    };
+
+    location.href = url + '?' + searchStr;
+};
